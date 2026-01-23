@@ -12,7 +12,7 @@
 
 ## ✅ 测试过的设备
 
-- KOReader on **Linux**
+- KOReader on **Android**
 - **雷电模拟器9**
 
 如果你成功测试了其他设备，方便的话请告诉我。
