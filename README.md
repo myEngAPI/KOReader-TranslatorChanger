@@ -1,5 +1,8 @@
 ## 📚 KOReader-TranslatorChanger
 
+KOReader-TranslatorChanger
+KOReader小司机翻译配置
+
 本插件为KOReader翻译引擎切换。因KOReader自带翻译为Google，在国内无法使用，本插件协助KOReader切换可用翻译引擎。
 目前支持的引擎有：
 - **DeepL**
