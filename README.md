@@ -1,0 +1,2 @@
+# KOReader-TranslatorChanger
+KOReader翻译引擎切换。因KOReader自带翻译为Google，在国内无法使用，本插件协助KOReader切换可用翻译。
