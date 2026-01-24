@@ -29,9 +29,10 @@ KOReader小司机翻译配置
 To install the plugin:
 
 1. 下载**最新版** [GitHub repository](https://github.com/myEngAPI/KOReader-TranslatorChanger/releases/).
-2. **解压** 然后解出`xiaosiji_translator.koplugin` 目录.
-3. 拷贝 `xiaosiji_translator.koplugin` 目录.
-4. 把它放在你设备的`koreader/plugins/` 目录下。
+   国内下载：https://xiaosiji.lanzouw.com/b0nzto0na 密码:aa6k
+3. **解压** 然后解出`xiaosiji_translator.koplugin` 目录.
+4. 拷贝 `xiaosiji_translator.koplugin` 目录.
+5. 把它放在你设备的`koreader/plugins/` 目录下。
 
 ---
 
