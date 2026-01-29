@@ -22,7 +22,7 @@ local _ = require("gettext")
 local OpenAITranslator = {
     base_url = "https://api.siliconflow.cn/v1",
     api_key = nil,
-    model = "Qwen/Qwen2.5-72B-Instruct",
+    model = "Qwen/Qwen2-7B-Instruct",
     default_lang = "ZH",
 }
 
@@ -78,7 +78,7 @@ function OpenAITranslator:genSettingsMenu()
         sub_item_table = {
             {
                 text = _("Base URL"),
-                help_text = _([[OpenAI兼容API的基础URL，例如：https://api.siliconflow.cn/v1]]),
+                help_text = _([[请看模型文档]]),
                 keep_menu_open = true,
                 callback = function()
                     local InputDialog = require("ui/widget/inputdialog")
@@ -158,7 +158,7 @@ function OpenAITranslator:genSettingsMenu()
             },
             {
                 text = _("模型名"),
-                help_text = _([[OpenAI兼容API的模型名称，例如：Qwen/Qwen2.5-72B-Instruct]]),
+                help_text = _([[OpenAI兼容API的模型名称，例如：Qwen/Qwen2.5-7B-Instruct]]),
                 keep_menu_open = true,
                 callback = function()
                     local InputDialog = require("ui/widget/inputdialog")
@@ -166,7 +166,7 @@ function OpenAITranslator:genSettingsMenu()
                     model_input = InputDialog:new{
                         title = _("OpenAI模型名"),
                         input = G_reader_settings:readSetting("openai_model") or self.model,
-                        input_hint = "Qwen/Qwen2.5-72B-Instruct",
+                        input_hint = "Qwen/Qwen2.5-7B-Instruct",
                         input_type = "text",
                         buttons = {
                             {
