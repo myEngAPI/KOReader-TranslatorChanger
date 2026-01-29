@@ -8,6 +8,7 @@
 
 local DeepLTranslator = require("deepl_translator")
 local DeepSeekTranslator = require("deepseek_translator")
+local OpenAITranslator = require("openai_translator")
 local UIManager = require("ui/uimanager")
 local WidgetContainer = require("ui/widget/container/widgetcontainer")
 local ffiUtil = require("ffi/util")
@@ -64,6 +65,17 @@ function xiaosijitranslatorplugin:patchTranslator()
         end
 
         logger.dbg("小司机翻译配置插件: DeepSeek translator patched successfully")
+    elseif engine == "openai" then
+        logger.dbg("小司机翻译配置插件: patching translator with OpenAI")
+        Translator.translate = function(self, text, target_lang, source_lang)
+            return OpenAITranslator:translate(text, target_lang, source_lang)
+        end
+
+        Translator.showTranslation = function(self, text, detailed_view, source_lang, target_lang, from_highlight, index)
+            return OpenAITranslator:showTranslation(text, detailed_view, source_lang, target_lang, from_highlight, index)
+        end
+
+        logger.dbg("小司机翻译配置插件: OpenAI translator patched successfully")
     else
         logger.dbg("小司机翻译配置插件: using original Google translator")
         if self.original_translate then
@@ -99,6 +111,11 @@ function xiaosijitranslatorplugin:patchHighlightModule()
         ReaderHighlight.showTranslation = function(self, text, detailed_view, source_lang, target_lang, from_highlight, index)
             return DeepSeekTranslator:showTranslation(text, detailed_view, source_lang, target_lang, from_highlight, index)
         end
+    elseif engine == "openai" then
+        logger.dbg("小司机翻译配置插件: patching highlight module with OpenAI")
+        ReaderHighlight.showTranslation = function(self, text, detailed_view, source_lang, target_lang, from_highlight, index)
+            return OpenAITranslator:showTranslation(text, detailed_view, source_lang, target_lang, from_highlight, index)
+        end
     else
         if self.original_highlightShowTranslation then
             ReaderHighlight.showTranslation = self.original_highlightShowTranslation
@@ -120,6 +137,7 @@ function xiaosijitranslatorplugin:addToMainMenu(menu_items)
                         google = _("Google翻译"),
                         deepl = _("DeepL翻译"),
                         deepseek = _("DeepSeek翻译"),
+                        openai = _("通用OpenAI翻译"),
                     }
                     return T(_("当前：%1"), engine_names[engine] or engine)
                 end,
@@ -169,11 +187,27 @@ function xiaosijitranslatorplugin:addToMainMenu(menu_items)
                             })
                         end,
                     },
+                    {
+                        text = _("通用OpenAI翻译"),
+                        help_text = _("使用OpenAI兼容API翻译引擎，如硅基流动，需要API密钥"),
+                        checked_func = function()
+                            return G_reader_settings:readSetting("translator_engine") == "openai"
+                        end,
+                        callback = function()
+                            G_reader_settings:saveSetting("translator_engine", "openai")
+                            self:patchTranslator()
+                            self:patchHighlightModule()
+                            UIManager:show(require("ui/widget/infomessage"):new{
+                                text = _("通用OpenAI翻译引擎已启用\n请重启KOReader生效"),
+                            })
+                        end,
+                    },
                 },
                 separator = true,
             },
             DeepLTranslator:genSettingsMenu(),
             DeepSeekTranslator:genSettingsMenu(),
+            OpenAITranslator:genSettingsMenu(),
         },
     }
 end
