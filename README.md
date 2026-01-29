@@ -7,7 +7,7 @@ KOReader小司机翻译配置
 目前支持的引擎有：
 - **DeepL**
 - **DeepSeek**
-- **通用OpenAI接口（如硅基流动等）**
+- **通用OpenAI接口（如硅基流动免费模型）**
 
 ## ⚠️ Beta警告
 
