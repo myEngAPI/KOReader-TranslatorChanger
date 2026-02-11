@@ -18,6 +18,7 @@ KOReader小司机翻译配置
 
 - KOReader on **Android**
 - **雷电模拟器9**
+- Kindle Paperwhite 6 5.17.1.0.4越狱后的KOReader
 
 如果你成功测试了其他设备，方便的话请告诉我。
 
