@@ -314,7 +314,28 @@ function DeepSeekTranslator:loadPage(text, target_lang, source_lang)
 
     logger.dbg("DeepSeek request:", request.url, "model:", model, "target:", target_lang)
 
-    local code, headers, status = socket.skip(1, http.request(request))
+    local code, headers, status
+    local max_retries = 5
+    local retry_delay = 2
+    local retry_count = 0
+
+    -- 增加socket超时设置
+    socketutil:set_timeout(60)
+
+    while retry_count < max_retries do
+        code, headers, status = socket.skip(1, http.request(request))
+        
+        -- 检查是否是wantread错误或连接错误
+        if status and (status:find("wantread") or status:find("WANTREAD") or status:find("timeout") or status:find("TIMEOUT")) then
+            retry_count = retry_count + 1
+            table.insert(debug_info, "🔄 遇到网络错误(" .. tostring(status) .. ")，正在重试... (" .. retry_count .. "/" .. max_retries .. ")")
+            socket.sleep(retry_delay)
+            retry_delay = retry_delay * 1.2 -- 调整退避策略
+        else
+            break
+        end
+    end
+
     socketutil:reset_timeout()
 
     table.insert(debug_info, "📊 HTTP状态码: " .. tostring(code or "无"))
